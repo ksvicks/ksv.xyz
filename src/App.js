@@ -8,6 +8,7 @@ import { AuthorCard } from './Home/AuthorCard';
 import { List } from './Blog/List';
 import { Blog } from './Blog/Blog';
 import { PersonalSpace } from './Personal/PersonalSpace';
+import { Resume } from './Resume/Resume';
 
 export class App extends Component{  
   render(){  
@@ -18,6 +19,7 @@ export class App extends Component{
     <div className="container-fluid p-0">
     <Routes>
     <Route path="/" element={<AuthorCard/>}/>
+    <Route path="/resume" element={<Resume/>}/>
     <Route path="/blogs" element={<List/>}/>
     <Route path="/shop" element={<Shop/>}/>
     <Route path="/blog" element={<Blog/>}/>

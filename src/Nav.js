@@ -17,7 +17,7 @@ export class Nav extends Component {
                       <Link to="/" className="nav-link active">Home</Link>
                   </li>
                   <li className="nav-item">
-                     <Link to="/blogs" className="nav-link active">Resume</Link> 
+                     <Link to="/resume" className="nav-link active">Resume</Link> 
                   </li>
                   <li className="nav-item">
                      <Link to="/blogs" className="nav-link active">Tech Blogs</Link> 
