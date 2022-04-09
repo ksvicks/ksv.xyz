@@ -9,3 +9,7 @@
 .serifFont{
     font-family: "Times New Roman", Times, serif;
 }
+
+.bgTransparent{
+    background-color: transparent !important;
+}
