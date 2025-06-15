@@ -7,7 +7,8 @@ export interface BlogPostMeta {
   date: string;
   summary: string;
   tags: string[];
-  slug: string;         // filename without ".md"
+  slug: string;
+  isFeatured?: boolean; // Optional, for future use
 }
 
 const postsDirectory = path.join(process.cwd(), "blog/posts");
