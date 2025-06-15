@@ -21,7 +21,7 @@ export default function Home() {
       {/* Right: Hero Text */}
       <div className="w-full md:w-1/2 flex flex-col justify-center items-center text-center md:text-left px-6 md:px-12 space-y-6 h-1/2 md:h-full overflow-y-auto">
         <h1 className="text-4xl sm:text-5xl font-bold leading-tight">
-          Hello world, I'm Vignesh KS 👋
+          Hello world, I&apos;m Vignesh KS 👋
         </h1>
         <p className="text-muted-foreground text-lg sm:text-xl">
           A software engineer building scalable systems and real-time SaaS applications.
