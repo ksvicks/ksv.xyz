@@ -1,36 +1,76 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# ksv.xyz
 
-## Getting Started
+Personal site and writing of **Vignesh KS** — senior software engineer.
 
-First, run the development server:
+Live at [ksv.xyz](https://ksv.xyz).
+
+## Stack
+
+| Concern    | Choice                                       |
+| ---------- | -------------------------------------------- |
+| Framework  | Next.js 15 (App Router, RSC, Turbopack dev)  |
+| Language   | TypeScript                                   |
+| Styling    | Tailwind CSS v4 with CSS-variable theming    |
+| Components | shadcn/ui on Radix primitives                |
+| Content    | Markdown files parsed with `gray-matter`     |
+| Rendering  | `react-markdown` + `remark-gfm`              |
+| Analytics  | Google Analytics (opt-in via env var)        |
+| Hosting    | Vercel                                       |
+
+## Design
+
+A deliberately Swiss layout: one grotesque typeface (Archivo) with IBM Plex Mono
+for labels and data, hard edges (`--radius: 0`), a warm-paper background, and a
+single vermillion accent. All colour lives in CSS variables in
+`src/app/globals.css` — light and dark are defined together, so nothing is
+hardcoded in components.
+
+Long-form article typography is hand-rolled in `globals.css` under `.article`
+rather than using `@tailwindcss/typography`, so the prose scale matches the rest
+of the grid instead of fighting it.
+
+## Running locally
 
 ```bash
+npm install
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Then open http://localhost:3000.
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+## Writing a post
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+Drop a Markdown file into `blog/posts/`. The filename becomes the URL slug.
 
-## Learn More
+```markdown
+---
+title: "The Bug That Left No Trace"
+date: "2026-07-03"
+summary: "One sentence that shows up in listings, search results and share cards."
+tags: ["Debugging", "Caching"]
+---
 
-To learn more about Next.js, take a look at the following resources:
+Body goes here. GitHub-flavoured Markdown — tables, task lists and
+strikethrough all work.
+```
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+Posts are statically generated at build time via `generateStaticParams`, sorted
+newest-first by `date`, and each one gets its own OpenGraph and Twitter metadata
+derived from its front matter.
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+## Environment
 
-## Deploy on Vercel
+| Variable            | Required | Purpose                                            |
+| ------------------- | -------- | -------------------------------------------------- |
+| `NEXT_PUBLIC_GA_ID` | No       | Google Analytics measurement ID. Unset ⇒ no script. |
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+## Layout
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+```
+blog/posts/          Markdown source for the blog
+src/app/             Routes — home, /blog, /blog/[slug], /resume, 404
+src/components/      NavBar, Footer, theme toggle, shadcn/ui primitives
+src/lib/site.ts      Name, role, and contact links — single source of truth
+src/lib/blog.ts      Front-matter reading and slug resolution
+src/lib/format.ts    Locale-stable date formatting and reading time
+```

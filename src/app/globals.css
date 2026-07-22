@@ -3,125 +3,317 @@
 
 @custom-variant dark (&:is(.dark *));
 
+/* -------------------------------------------------------------------------- */
+/* Theme bridge                                                               */
+/* -------------------------------------------------------------------------- */
 @theme inline {
   --color-background: var(--background);
   --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
-  --color-sidebar-ring: var(--sidebar-ring);
-  --color-sidebar-border: var(--sidebar-border);
-  --color-sidebar-accent-foreground: var(--sidebar-accent-foreground);
-  --color-sidebar-accent: var(--sidebar-accent);
-  --color-sidebar-primary-foreground: var(--sidebar-primary-foreground);
-  --color-sidebar-primary: var(--sidebar-primary);
-  --color-sidebar-foreground: var(--sidebar-foreground);
-  --color-sidebar: var(--sidebar);
-  --color-chart-5: var(--chart-5);
-  --color-chart-4: var(--chart-4);
-  --color-chart-3: var(--chart-3);
-  --color-chart-2: var(--chart-2);
-  --color-chart-1: var(--chart-1);
-  --color-ring: var(--ring);
-  --color-input: var(--input);
-  --color-border: var(--border);
-  --color-destructive: var(--destructive);
-  --color-accent-foreground: var(--accent-foreground);
-  --color-accent: var(--accent);
-  --color-muted-foreground: var(--muted-foreground);
-  --color-muted: var(--muted);
-  --color-secondary-foreground: var(--secondary-foreground);
-  --color-secondary: var(--secondary);
-  --color-primary-foreground: var(--primary-foreground);
-  --color-primary: var(--primary);
-  --color-popover-foreground: var(--popover-foreground);
-  --color-popover: var(--popover);
-  --color-card-foreground: var(--card-foreground);
   --color-card: var(--card);
-  --radius-sm: calc(var(--radius) - 4px);
-  --radius-md: calc(var(--radius) - 2px);
-  --radius-lg: var(--radius);
-  --radius-xl: calc(var(--radius) + 4px);
+  --color-card-foreground: var(--card-foreground);
+  --color-popover: var(--popover);
+  --color-popover-foreground: var(--popover-foreground);
+  --color-primary: var(--primary);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-secondary: var(--secondary);
+  --color-secondary-foreground: var(--secondary-foreground);
+  --color-muted: var(--muted);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-accent: var(--accent);
+  --color-accent-foreground: var(--accent-foreground);
+  --color-brand: var(--brand);
+  --color-brand-foreground: var(--brand-foreground);
+  --color-destructive: var(--destructive);
+  --color-border: var(--border);
+  --color-input: var(--input);
+  --color-ring: var(--ring);
+
+  --font-sans: var(--font-archivo);
+  --font-mono: var(--font-plex-mono);
+
+  /* Swiss grid: hard edges, no rounding anywhere. */
+  --radius-sm: 0px;
+  --radius-md: 0px;
+  --radius-lg: 0px;
+  --radius-xl: 0px;
 }
 
+/* -------------------------------------------------------------------------- */
+/* Palette — warm paper / soft black / one vermillion accent                  */
+/* -------------------------------------------------------------------------- */
 :root {
-  --radius: 0.625rem;
-  --background: oklch(1 0 0);
-  --foreground: oklch(0.145 0 0);
+  --radius: 0px;
+
+  --background: oklch(0.981 0.0025 92);
+  --foreground: oklch(0.175 0.006 60);
+
   --card: oklch(1 0 0);
-  --card-foreground: oklch(0.145 0 0);
-  --popover: oklch(1 0 0);
-  --popover-foreground: oklch(0.145 0 0);
-  --primary: oklch(0.205 0 0);
-  --primary-foreground: oklch(0.985 0 0);
-  --secondary: oklch(0.97 0 0);
-  --secondary-foreground: oklch(0.205 0 0);
-  --muted: oklch(0.97 0 0);
-  --muted-foreground: oklch(0.556 0 0);
-  --accent: oklch(0.97 0 0);
-  --accent-foreground: oklch(0.205 0 0);
+  --card-foreground: oklch(0.175 0.006 60);
+  --popover: oklch(0.995 0.002 92);
+  --popover-foreground: oklch(0.175 0.006 60);
+
+  --primary: oklch(0.175 0.006 60);
+  --primary-foreground: oklch(0.981 0.0025 92);
+
+  --secondary: oklch(0.945 0.004 92);
+  --secondary-foreground: oklch(0.175 0.006 60);
+
+  --muted: oklch(0.945 0.004 92);
+  --muted-foreground: oklch(0.472 0.008 70);
+
+  /* `accent` keeps shadcn's hover-surface semantics — brand is separate. */
+  --accent: oklch(0.935 0.005 92);
+  --accent-foreground: oklch(0.175 0.006 60);
+
+  /* Monochrome by design: emphasis comes from weight, scale and rules,
+     not hue. Swap these two values to introduce a real accent later. */
+  --brand: oklch(0.175 0.006 60);
+  --brand-foreground: oklch(0.981 0.0025 92);
+
   --destructive: oklch(0.577 0.245 27.325);
-  --border: oklch(0.922 0 0);
-  --input: oklch(0.922 0 0);
-  --ring: oklch(0.708 0 0);
-  --chart-1: oklch(0.646 0.222 41.116);
-  --chart-2: oklch(0.6 0.118 184.704);
-  --chart-3: oklch(0.398 0.07 227.392);
-  --chart-4: oklch(0.828 0.189 84.429);
-  --chart-5: oklch(0.769 0.188 70.08);
-  --sidebar: oklch(0.985 0 0);
-  --sidebar-foreground: oklch(0.145 0 0);
-  --sidebar-primary: oklch(0.205 0 0);
-  --sidebar-primary-foreground: oklch(0.985 0 0);
-  --sidebar-accent: oklch(0.97 0 0);
-  --sidebar-accent-foreground: oklch(0.205 0 0);
-  --sidebar-border: oklch(0.922 0 0);
-  --sidebar-ring: oklch(0.708 0 0);
+
+  --border: oklch(0.175 0.006 60 / 13%);
+  --input: oklch(0.175 0.006 60 / 20%);
+  --ring: oklch(0.175 0.006 60);
 }
 
 .dark {
-  --background: oklch(0.145 0 0);
-  --foreground: oklch(0.985 0 0);
-  --card: oklch(0.205 0 0);
-  --card-foreground: oklch(0.985 0 0);
-  --popover: oklch(0.205 0 0);
-  --popover-foreground: oklch(0.985 0 0);
-  --primary: oklch(0.922 0 0);
-  --primary-foreground: oklch(0.205 0 0);
-  --secondary: oklch(0.269 0 0);
-  --secondary-foreground: oklch(0.985 0 0);
-  --muted: oklch(0.269 0 0);
-  --muted-foreground: oklch(0.708 0 0);
-  --accent: oklch(0.269 0 0);
-  --accent-foreground: oklch(0.985 0 0);
+  --background: oklch(0.152 0.005 60);
+  --foreground: oklch(0.955 0.003 92);
+
+  --card: oklch(0.196 0.005 60);
+  --card-foreground: oklch(0.955 0.003 92);
+  --popover: oklch(0.196 0.005 60);
+  --popover-foreground: oklch(0.955 0.003 92);
+
+  --primary: oklch(0.955 0.003 92);
+  --primary-foreground: oklch(0.152 0.005 60);
+
+  --secondary: oklch(0.225 0.006 60);
+  --secondary-foreground: oklch(0.955 0.003 92);
+
+  --muted: oklch(0.225 0.006 60);
+  --muted-foreground: oklch(0.665 0.008 75);
+
+  --accent: oklch(0.245 0.006 60);
+  --accent-foreground: oklch(0.955 0.003 92);
+
+  --brand: oklch(0.955 0.003 92);
+  --brand-foreground: oklch(0.152 0.005 60);
+
   --destructive: oklch(0.704 0.191 22.216);
-  --border: oklch(1 0 0 / 10%);
-  --input: oklch(1 0 0 / 15%);
-  --ring: oklch(0.556 0 0);
-  --chart-1: oklch(0.488 0.243 264.376);
-  --chart-2: oklch(0.696 0.17 162.48);
-  --chart-3: oklch(0.769 0.188 70.08);
-  --chart-4: oklch(0.627 0.265 303.9);
-  --chart-5: oklch(0.645 0.246 16.439);
-  --sidebar: oklch(0.205 0 0);
-  --sidebar-foreground: oklch(0.985 0 0);
-  --sidebar-primary: oklch(0.488 0.243 264.376);
-  --sidebar-primary-foreground: oklch(0.985 0 0);
-  --sidebar-accent: oklch(0.269 0 0);
-  --sidebar-accent-foreground: oklch(0.985 0 0);
-  --sidebar-border: oklch(1 0 0 / 10%);
-  --sidebar-ring: oklch(0.556 0 0);
+
+  --border: oklch(0.955 0.003 92 / 14%);
+  --input: oklch(0.955 0.003 92 / 18%);
+  --ring: oklch(0.955 0.003 92);
 }
 
+/* -------------------------------------------------------------------------- */
+/* Base                                                                       */
+/* -------------------------------------------------------------------------- */
 @layer base {
   * {
     @apply border-border outline-ring/50;
   }
+
   body {
-    @apply bg-background text-foreground;
+    @apply bg-background text-foreground font-sans antialiased;
+    font-synthesis-weight: none;
+    text-rendering: optimizeLegibility;
+  }
+
+  ::selection {
+    background: var(--brand);
+    color: var(--brand-foreground);
+  }
+
+  /* Swiss display type: tight tracking, no optical drift at large sizes. */
+  h1,
+  h2,
+  h3 {
+    letter-spacing: -0.02em;
   }
 }
 
-.line-break {
-  white-space: pre-wrap;
-  line-height: 1.5;
+/* -------------------------------------------------------------------------- */
+/* Components                                                                 */
+/* -------------------------------------------------------------------------- */
+@layer components {
+  /* Small mono caps used for eyebrows, stat captions, and metadata. */
+  .label {
+    font-family: var(--font-mono), ui-monospace, monospace;
+    font-size: 0.6875rem;
+    line-height: 1.4;
+    font-weight: 500;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+  }
+
+  /* Editorial rule used between grid bands. */
+  .rule {
+    border-top: 1px solid var(--border);
+  }
+
+  /*
+   * The logo is navy with lighter letterforms cut into it. On the dark
+   * background it has to be lifted to a readable grey while keeping those
+   * letterforms — flattening it to a solid white silhouette (brightness(0)
+   * invert(1)) erases them, which is invisible at 24px in the nav but reads
+   * as a white blob at hero size. Desaturate, then lift luminance.
+   */
+  .logo-adaptive {
+    filter: none;
+  }
+
+  .dark .logo-adaptive {
+    filter: saturate(0) brightness(2.2);
+  }
+
+  /* ------------------------------------------------------------------ */
+  /* Long-form article typography.                                       */
+  /* Hand-rolled rather than @tailwindcss/typography so the type scale    */
+  /* matches the rest of the Swiss grid instead of fighting it.           */
+  /* ------------------------------------------------------------------ */
+  .article {
+    font-size: 1.0625rem;
+    line-height: 1.75;
+    color: var(--foreground);
+  }
+
+  .article > * + * {
+    margin-top: 1.5em;
+  }
+
+  .article h2,
+  .article h3,
+  .article h4 {
+    font-weight: 700;
+    letter-spacing: -0.02em;
+    line-height: 1.2;
+    margin-top: 2.75em;
+    margin-bottom: -0.5em;
+  }
+
+  .article h2 {
+    font-size: 1.625rem;
+  }
+  .article h3 {
+    font-size: 1.25rem;
+  }
+  .article h4 {
+    font-size: 1.0625rem;
+  }
+
+  .article a {
+    color: inherit;
+    text-decoration: underline;
+    text-decoration-thickness: 1px;
+    text-underline-offset: 0.2em;
+    text-decoration-color: var(--brand);
+    transition: color 0.15s ease;
+  }
+
+  .article a:hover {
+    color: var(--brand);
+  }
+
+  .article strong {
+    font-weight: 650;
+  }
+
+  .article ul,
+  .article ol {
+    padding-left: 1.25em;
+  }
+
+  .article ul {
+    list-style: none;
+  }
+
+  .article ul > li {
+    position: relative;
+  }
+
+  /* Square bullets — consistent with the hard-edged grid. */
+  .article ul > li::before {
+    content: "";
+    position: absolute;
+    left: -1.15em;
+    top: 0.72em;
+    width: 0.3em;
+    height: 0.3em;
+    background: var(--brand);
+  }
+
+  .article ol {
+    list-style: decimal;
+  }
+
+  .article li + li {
+    margin-top: 0.5em;
+  }
+
+  .article blockquote {
+    border-left: 2px solid var(--brand);
+    padding-left: 1.25em;
+    font-size: 1.125rem;
+    line-height: 1.6;
+    color: var(--muted-foreground);
+  }
+
+  .article code {
+    font-family: var(--font-mono), ui-monospace, monospace;
+    font-size: 0.875em;
+    background: var(--muted);
+    padding: 0.15em 0.4em;
+    white-space: nowrap;
+  }
+
+  .article pre {
+    background: var(--muted);
+    border: 1px solid var(--border);
+    padding: 1.25rem;
+    overflow-x: auto;
+    font-size: 0.875rem;
+    line-height: 1.65;
+  }
+
+  .article pre code {
+    background: none;
+    padding: 0;
+    font-size: inherit;
+    white-space: pre;
+  }
+
+  .article hr {
+    border: 0;
+    border-top: 1px solid var(--border);
+    margin-top: 3em;
+    margin-bottom: 3em;
+  }
+
+  .article img {
+    max-width: 100%;
+    height: auto;
+  }
+
+  .article table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 0.9375rem;
+    display: block;
+    overflow-x: auto;
+  }
+
+  .article th,
+  .article td {
+    border: 1px solid var(--border);
+    padding: 0.5em 0.75em;
+    text-align: left;
+  }
+
+  .article th {
+    font-weight: 650;
+    background: var(--muted);
+  }
 }

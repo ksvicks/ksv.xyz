@@ -1,7 +1,12 @@
 // src/app/blog/[slug]/page.tsx
-import { getPostBySlug, getAllSlugs } from "@/lib/blog";
+import type { Metadata } from "next";
+import Link from "next/link";
+import { notFound } from "next/navigation";
 import ReactMarkdown from "react-markdown";
-import { Separator } from "@/components/ui/separator";
+import remarkGfm from "remark-gfm";
+import { getPostBySlug, getAllSlugs } from "@/lib/blog";
+import { formatDate, readingTime } from "@/lib/format";
+import { site } from "@/lib/site";
 
 /* -------------------------------------------------------------------------- */
 /* Static generation                                                          */
@@ -10,53 +15,99 @@ export function generateStaticParams(): { slug: string }[] {
   return getAllSlugs().map((slug) => ({ slug }));
 }
 
+type Params = { slug: string };
+
+/* -------------------------------------------------------------------------- */
+/* Per-post metadata — this is what makes a shared link render a real card.   */
+/* -------------------------------------------------------------------------- */
+export async function generateMetadata({
+  params,
+}: {
+  params: Promise<Params>;
+}): Promise<Metadata> {
+  const { slug } = await params;
+  const post = getPostBySlug(slug);
+
+  if (!post) return { title: "Post not found" };
+
+  return {
+    title: post.title,
+    description: post.summary,
+    openGraph: {
+      type: "article",
+      title: post.title,
+      description: post.summary,
+      url: `/blog/${post.slug}`,
+      publishedTime: post.date,
+      authors: [site.name],
+      tags: post.tags,
+    },
+    twitter: {
+      card: "summary_large_image",
+      title: post.title,
+      description: post.summary,
+    },
+  };
+}
+
 /* -------------------------------------------------------------------------- */
 /* Page component                                                             */
 /* -------------------------------------------------------------------------- */
-type Params = { slug: string };
-
 export default async function BlogDetail({
-  /* ✅  Promise<Params> — matches Next’s generated PageProps */
   params,
 }: {
   params: Promise<Params>;
 }) {
-  const { slug } = await params;          // ⬅ await once, then use
+  const { slug } = await params;
+  const post = getPostBySlug(slug);
 
-  const { title, date, content, tags } = getPostBySlug(slug);
+  if (!post) notFound();
+
+  const { title, date, content, tags } = post;
 
   return (
-    <article className="prose dark:prose-invert max-w-3xl mx-auto py-16 px-6 space-y-8">
-      {/* header */}
-      <div className="space-y-2">
-        <p className="text-muted-foreground text-sm">
-          {new Date(date).toLocaleDateString(undefined, {
-            year: "numeric",
-            month: "long",
-            day: "numeric",
-          })}
-        </p>
-        <h1 className="text-4xl font-bold text-primary mb-2">{title}</h1>
-      </div>
+    <div className="mx-auto max-w-3xl px-6 md:px-10">
+      <article className="pt-20 md:pt-28">
+        <header>
+          <div className="flex flex-wrap items-center gap-x-5 gap-y-2">
+            <time dateTime={date} className="label text-muted-foreground">
+              {formatDate(date)}
+            </time>
+            <span className="label text-muted-foreground">
+              {readingTime(content)}
+            </span>
+          </div>
 
-      {/* tag chips */}
-      <div className="flex flex-wrap gap-2">
-        {tags.map((tag) => (
-          <span
-            key={tag}
-            className="bg-muted px-3 py-1 rounded-full text-xs text-muted-foreground"
-          >
-            {tag}
-          </span>
-        ))}
-      </div>
+          <h1 className="mt-6 text-[clamp(2rem,6vw,3.5rem)] font-bold uppercase leading-[0.95] tracking-[-0.035em]">
+            {title}
+          </h1>
 
-      <Separator />
+          {tags.length > 0 && (
+            <div className="mt-8 flex flex-wrap gap-x-4 gap-y-2">
+              {tags.map((tag) => (
+                <span key={tag} className="label text-muted-foreground">
+                  {tag}
+                </span>
+              ))}
+            </div>
+          )}
+        </header>
 
-      {/* body */}
-      <div className="prose dark:prose-invert max-w-none pt-6">
-        <ReactMarkdown>{content}</ReactMarkdown>
-      </div>
-    </article>
+        <hr className="my-12 border-border" />
+
+        <div className="article">
+          <ReactMarkdown remarkPlugins={[remarkGfm]}>{content}</ReactMarkdown>
+        </div>
+      </article>
+
+      <nav className="mt-20 border-t border-border pt-8">
+        <Link
+          href="/blog"
+          className="label text-muted-foreground transition-colors hover:text-foreground"
+        >
+          ← All writing
+        </Link>
+      </nav>
+    </div>
   );
 }

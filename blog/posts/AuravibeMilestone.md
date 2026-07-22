@@ -2,7 +2,7 @@
 title: "Auravibe Milestone 🌱"
 date: "2025-08-17"
 summary: "First working local build of Auravibe. Planning next steps for deployment."
-tags: ["#auravibe", "#milestone", "#spotify", "#spring", "#react"]
+tags: ["Auravibe", "Spotify", "Spring", "React"]
 ---
 
 A small checkpoint worth noting: the **Auravibe** project is now running locally end-to-end.  

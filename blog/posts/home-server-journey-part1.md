@@ -2,7 +2,7 @@
 title: "Home Server Setup Journey - Part 1"
 date: "2025-06-28"
 summary: "starting my home server journey with a random thin client"
-tags: ["#homeserver", "#selfhosted", "#thinclient", "#ubuntu"]
+tags: ["Home Server", "Self-Hosting", "Ubuntu", "Networking"]
 ---
 
 So this just happened.
@@ -50,6 +50,6 @@ I'm writing and posting this blog **from the home server itself**. Just for the 
 This is just part 1. No roadmap, just vibes.
 
 ✌️  
-Vicky, cleaned and improved by chatGPT
+— Vicky KS
 
 ---
