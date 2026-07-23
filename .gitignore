@@ -4,6 +4,11 @@
 /node_modules
 /.pnp
 .pnp.*
+
+# This project uses pnpm — keep a single lockfile. Ignore npm/yarn ones so a
+# stray `npm install` can't reintroduce a second, drifting lockfile.
+package-lock.json
+yarn.lock
 .yarn/*
 !.yarn/patches
 !.yarn/plugins
