@@ -37,6 +37,7 @@ export const projects: Project[] = [
     status: "Live",
     year: "2026",
     links: [{ label: "Source", href: "https://github.com/ksvicks/claude-notify" }],
+    post: "claude-notify",
   },
   {
     index: "02",
