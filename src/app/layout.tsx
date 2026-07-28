@@ -4,7 +4,6 @@ import { Archivo, IBM_Plex_Mono } from "next/font/google"
 import NavBar from "@/components/NavBar"
 import Footer from "@/components/Footer"
 import ThemeProvider from "@/components/theme-provider"
-import AnalyticsConsent from "@/components/AnalyticsConsent"
 
 const archivo = Archivo({
   subsets: ["latin"],
@@ -18,8 +17,6 @@ const plexMono = IBM_Plex_Mono({
   variable: "--font-plex-mono",
   display: "swap",
 })
-
-const GA_ID = process.env.NEXT_PUBLIC_GA_ID
 
 export const metadata: Metadata = {
   metadataBase: new URL("https://ksv.xyz"),
@@ -62,9 +59,6 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
             <main className="flex-1">{children}</main>
             <Footer />
           </div>
-
-          {/* Renders nothing until the visitor decides; no GA request before that. */}
-          {GA_ID && <AnalyticsConsent gaId={GA_ID} />}
         </ThemeProvider>
 
         {/*

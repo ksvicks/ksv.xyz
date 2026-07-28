@@ -14,7 +14,7 @@ Live at [ksv.xyz](https://ksv.xyz).
 | Components | shadcn/ui on Radix primitives                |
 | Content    | Markdown files parsed with `gray-matter`     |
 | Rendering  | `react-markdown` + `remark-gfm`              |
-| Analytics  | Google Analytics (opt-in via env var)        |
+| Analytics  | Cloudflare Web Analytics (cookieless)        |
 | Hosting    | Vercel                                       |
 
 ## Design
@@ -60,9 +60,12 @@ derived from its front matter.
 
 ## Environment
 
-| Variable            | Required | Purpose                                            |
-| ------------------- | -------- | -------------------------------------------------- |
-| `NEXT_PUBLIC_GA_ID` | No       | Google Analytics measurement ID. Unset ⇒ no script. |
+No environment variables are required.
+
+Analytics is Cloudflare Web Analytics, wired directly into the root layout. It
+is cookieless, so there is no consent banner and nothing to configure per
+environment. The beacon token is public by design — it ships in the HTML of
+every page — so it lives in the source rather than in an env var.
 
 ## Layout
 

@@ -1,5 +1,4 @@
 import Image from "next/image"
-import ConsentSettingsButton from "@/components/ConsentSettingsButton"
 import { site, socials } from "@/lib/site"
 
 export default function Footer() {
@@ -35,7 +34,6 @@ export default function Footer() {
                 {label}
               </a>
             ))}
-            <ConsentSettingsButton enabled={Boolean(process.env.NEXT_PUBLIC_GA_ID)} />
           </nav>
         </div>
 
