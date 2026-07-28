@@ -28,6 +28,18 @@ export interface Project {
 export const projects: Project[] = [
   {
     index: "01",
+    name: "claude-notify",
+    summary:
+      "A macOS menu bar indicator showing which Claude Code session is waiting on you.",
+    detail:
+      "Hooks write one small state file per session; a Swift menu bar app polls that directory and renders what it finds. The hook script has no dependencies and does no parsing, so either half can be replaced without touching the other. Packaged as a Claude Code plugin, so installing it registers the hooks with no config editing by hand.",
+    stack: ["Swift", "AppKit", "Bash", "Claude Code hooks"],
+    status: "Live",
+    year: "2026",
+    links: [{ label: "Source", href: "https://github.com/ksvicks/claude-notify" }],
+  },
+  {
+    index: "02",
     name: "Auravibe",
     summary: "A Spotify-connected web app pairing a Spring backend with a React frontend.",
     detail:
@@ -38,7 +50,7 @@ export const projects: Project[] = [
     post: "AuravibeMilestone",
   },
   {
-    index: "02",
+    index: "03",
     name: "Home server",
     summary:
       "A second-hand HP thin client running Ubuntu, used for self-hosting and for learning the ops side properly.",
@@ -50,7 +62,7 @@ export const projects: Project[] = [
     post: "home-server-journey-part1",
   },
   {
-    index: "03",
+    index: "04",
     name: "ksv.xyz",
     summary: "This site — a Next.js app with a file-based Markdown blog.",
     detail:
@@ -61,14 +73,14 @@ export const projects: Project[] = [
     links: [{ label: "Source", href: "https://github.com/ksvicks/ksv.xyz" }],
   },
   {
-    index: "04",
+    index: "05",
     name: "Raspberry Pi control panel",
     summary: "A small monitoring and control UI for a Pi, built with Java and React.",
     stack: ["Java", "React"],
     status: "Shelved",
   },
   {
-    index: "05",
+    index: "06",
     name: "Lyrics-based song finder",
     summary: "Finds a song from a half-remembered fragment of its lyrics.",
     stack: ["Java"],
