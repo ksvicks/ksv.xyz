@@ -5,11 +5,11 @@ import { projects } from "@/lib/projects"
 export const metadata: Metadata = {
   title: "Projects",
   description:
-    "Side projects and things I self-host — a Spotify web app, a home server, and this site.",
+    "Side projects and things I self-host — a macOS menu bar tool, a Spotify web app, a home server, and this site.",
   openGraph: {
     title: "Projects — Vignesh KS",
     description:
-      "Side projects and things I self-host — a Spotify web app, a home server, and this site.",
+      "Side projects and things I self-host — a macOS menu bar tool, a Spotify web app, a home server, and this site.",
     url: "/projects",
   },
 }
