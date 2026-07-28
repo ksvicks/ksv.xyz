@@ -66,6 +66,21 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
           {/* Renders nothing until the visitor decides; no GA request before that. */}
           {GA_ID && <AnalyticsConsent gaId={GA_ID} />}
         </ThemeProvider>
+
+        {/*
+          Cloudflare Web Analytics. Cookieless and privacy-preserving, so it
+          needs no consent banner. The token is public by design — it ships in
+          the HTML of every page — hence no env var.
+          `type="module"` already defers execution, so this never blocks
+          rendering; the explicit `defer` is a no-op that satisfies
+          @next/next/no-sync-scripts.
+        */}
+        <script
+          type="module"
+          defer
+          src="https://static.cloudflareinsights.com/beacon.min.js"
+          data-cf-beacon='{"token": "706270176d8841bead8085a95e290705"}'
+        />
       </body>
     </html>
   )
