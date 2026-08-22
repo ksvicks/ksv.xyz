@@ -1,9 +1,12 @@
 import "./globals.css"
 import type { Metadata } from "next"
+import Script from "next/script"
 import { Archivo, IBM_Plex_Mono } from "next/font/google"
 import NavBar from "@/components/NavBar"
 import Footer from "@/components/Footer"
 import ThemeProvider from "@/components/theme-provider"
+import Analytics from "@/components/Analytics"
+import { GA_ID } from "@/lib/gtag"
 
 const archivo = Archivo({
   subsets: ["latin"],
@@ -59,7 +62,29 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
             <main className="flex-1">{children}</main>
             <Footer />
           </div>
+
+          {/* Sends a page_view on first load and on every route change. */}
+          <Analytics />
         </ThemeProvider>
+
+        {/*
+          Google Analytics. Loaded on every page, with no consent gate. The
+          measurement ID is public by design, so it lives in the source.
+          `send_page_view: false` leaves all page_view events to <Analytics />,
+          which also covers client-side navigations.
+        */}
+        <Script
+          src={`https://www.googletagmanager.com/gtag/js?id=${GA_ID}`}
+          strategy="afterInteractive"
+        />
+        <Script id="gtag-init" strategy="afterInteractive">
+          {`
+            window.dataLayer = window.dataLayer || [];
+            function gtag(){dataLayer.push(arguments);}
+            gtag('js', new Date());
+            gtag('config', '${GA_ID}', { send_page_view: false });
+          `}
+        </Script>
 
         {/*
           Cloudflare Web Analytics. Cookieless and privacy-preserving, so it
