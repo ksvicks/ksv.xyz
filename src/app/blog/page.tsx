@@ -1,7 +1,10 @@
 import type { Metadata } from "next";
 import Link from "next/link";
+import JsonLd from "@/components/JsonLd";
 import { getAllPosts } from "@/lib/blog";
 import { formatDate } from "@/lib/format";
+import { absolute, alternatesFor } from "@/lib/seo";
+import { site } from "@/lib/site";
 
 export const metadata: Metadata = {
   title: "Writing",
@@ -13,13 +16,35 @@ export const metadata: Metadata = {
       "Notes on backend systems, debugging, self-hosting and the occasional detour.",
     url: "/blog",
   },
+  alternates: alternatesFor("/blog"),
 };
 
 export default function BlogPage() {
   const posts = getAllPosts();
 
+  /* Lists every post so a crawler sees the full index from this one page,
+     even before it follows the individual links. */
+  const blogSchema = {
+    "@context": "https://schema.org",
+    "@type": "Blog",
+    "@id": absolute("/blog#blog"),
+    name: `${site.name} — Writing`,
+    url: absolute("/blog"),
+    inLanguage: "en",
+    author: { "@type": "Person", name: site.name, url: site.url },
+    blogPost: posts.map((post) => ({
+      "@type": "BlogPosting",
+      headline: post.title,
+      description: post.summary,
+      datePublished: post.date,
+      dateModified: post.updated ?? post.date,
+      url: absolute(`/blog/${post.slug}`),
+    })),
+  };
+
   return (
     <div className="mx-auto max-w-6xl px-6 md:px-10">
+      <JsonLd data={blogSchema} />
       <header className="pt-20 pb-16 md:pt-28 md:pb-20">
         <h1 className="text-[clamp(2rem,7vw,4.5rem)] font-bold uppercase leading-[0.9] tracking-[-0.035em]">
           Writing

@@ -4,8 +4,10 @@ import Link from "next/link";
 import { notFound } from "next/navigation";
 import ReactMarkdown from "react-markdown";
 import remarkGfm from "remark-gfm";
+import JsonLd from "@/components/JsonLd";
 import { getPostBySlug, getAllSlugs } from "@/lib/blog";
 import { formatDate, readingTime } from "@/lib/format";
+import { absolute, alternatesFor } from "@/lib/seo";
 import { site } from "@/lib/site";
 
 /* -------------------------------------------------------------------------- */
@@ -28,24 +30,32 @@ export async function generateMetadata({
   const { slug } = await params;
   const post = getPostBySlug(slug);
 
-  if (!post) return { title: "Post not found" };
+  // A missing post 404s, so keep it out of the index rather than letting the
+  // crawler bank a soft-404 under this URL.
+  if (!post) return { title: "Post not found", robots: { index: false } };
+
+  const image = `/blog/${post.slug}/og.png`;
 
   return {
     title: post.title,
     description: post.summary,
+    alternates: alternatesFor(`/blog/${post.slug}`),
     openGraph: {
       type: "article",
       title: post.title,
       description: post.summary,
       url: `/blog/${post.slug}`,
       publishedTime: post.date,
+      modifiedTime: post.updated ?? post.date,
       authors: [site.name],
       tags: post.tags,
+      images: [{ url: image, width: 1200, height: 630, alt: post.title }],
     },
     twitter: {
       card: "summary_large_image",
       title: post.title,
       description: post.summary,
+      images: [image],
     },
   };
 }
@@ -63,10 +73,50 @@ export default async function BlogDetail({
 
   if (!post) notFound();
 
-  const { title, date, content, tags } = post;
+  const { title, date, updated, content, tags } = post;
+  const url = absolute(`/blog/${slug}`);
+
+  /* BlogPosting is what earns the article treatment in search results;
+     BreadcrumbList is what turns the URL line into "ksv.xyz › Writing › …". */
+  const postSchema = {
+    "@context": "https://schema.org",
+    "@graph": [
+      {
+        "@type": "BlogPosting",
+        "@id": `${url}#post`,
+        headline: title,
+        description: post.summary,
+        url,
+        mainEntityOfPage: { "@type": "WebPage", "@id": url },
+        datePublished: date,
+        dateModified: updated ?? date,
+        keywords: tags,
+        wordCount: content.trim().split(/\s+/).length,
+        inLanguage: "en",
+        image: absolute(`/blog/${slug}/og.png`),
+        author: { "@type": "Person", name: site.name, url: site.url },
+        publisher: { "@type": "Person", name: site.name, url: site.url },
+      },
+      {
+        "@type": "BreadcrumbList",
+        itemListElement: [
+          { "@type": "ListItem", position: 1, name: "Home", item: site.url },
+          {
+            "@type": "ListItem",
+            position: 2,
+            name: "Writing",
+            item: absolute("/blog"),
+          },
+          { "@type": "ListItem", position: 3, name: title, item: url },
+        ],
+      },
+    ],
+  };
 
   return (
     <div className="mx-auto max-w-3xl px-6 md:px-10">
+      <JsonLd data={postSchema} />
+
       <article className="pt-20 md:pt-28">
         <header>
           <div className="flex flex-wrap items-center gap-x-5 gap-y-2">

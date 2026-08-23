@@ -1,5 +1,6 @@
 import type { Metadata } from "next"
 import Link from "next/link"
+import { alternatesFor } from "@/lib/seo"
 import { site, socials } from "@/lib/site"
 
 export const metadata: Metadata = {
@@ -12,6 +13,7 @@ export const metadata: Metadata = {
       "Senior software engineer and platform lead. Ten years on internet-scale SaaS: multi-tenant platforms, authentication and performance.",
     url: "/resume",
   },
+  alternates: alternatesFor("/resume"),
 }
 
 /* Content below is transcribed from Vignesh KS's resume. */

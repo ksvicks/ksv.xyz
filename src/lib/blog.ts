@@ -5,6 +5,9 @@ import matter from "gray-matter";
 export interface BlogPostMeta {
   title: string;
   date: string;
+  /** Optional `updated:` frontmatter. Feeds `dateModified` for search engines
+      and `lastModified` in the sitemap; falls back to `date` when absent. */
+  updated?: string;
   summary: string;
   tags: string[];
   slug: string;
@@ -22,6 +25,7 @@ function toMeta(filename: string, data: Record<string, unknown>): BlogPostMeta {
   return {
     title: (data.title as string) ?? "Untitled",
     date: (data.date as string) ?? "",
+    updated: (data.updated as string) || undefined,
     summary: (data.summary as string) ?? "",
     tags: (data.tags as string[]) ?? [],
     slug: filename.replace(/\.mdx?$/, ""),

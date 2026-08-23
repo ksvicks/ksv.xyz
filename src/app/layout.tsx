@@ -7,6 +7,7 @@ import Footer from "@/components/Footer"
 import ThemeProvider from "@/components/theme-provider"
 import Analytics from "@/components/Analytics"
 import { GA_ID } from "@/lib/gtag"
+import { site } from "@/lib/site"
 
 const archivo = Archivo({
   subsets: ["latin"],
@@ -21,8 +22,16 @@ const plexMono = IBM_Plex_Mono({
   display: "swap",
 })
 
+/** Shared social card. Pages that want their own set `openGraph.images`. */
+const ogImage = {
+  url: "/og.png",
+  width: 1200,
+  height: 630,
+  alt: "Vignesh KS — Software engineer",
+}
+
 export const metadata: Metadata = {
-  metadataBase: new URL("https://ksv.xyz"),
+  metadataBase: new URL(site.url),
   title: {
     default: "Vignesh KS — Software engineer",
     template: "%s — Vignesh KS",
@@ -39,16 +48,27 @@ export const metadata: Metadata = {
     description:
       "Software engineer working on backend systems. Notes on debugging and self-hosting.",
     locale: "en_US",
+    images: [ogImage],
   },
   twitter: {
     card: "summary_large_image",
     title: "Vignesh KS — Software engineer",
     description:
       "Software engineer working on backend systems. Notes on debugging and self-hosting.",
+    images: [ogImage.url],
   },
   robots: {
     index: true,
     follow: true,
+    googleBot: {
+      index: true,
+      follow: true,
+      // Let Google show full-length text snippets and large image previews
+      // instead of the conservative defaults.
+      "max-snippet": -1,
+      "max-image-preview": "large",
+      "max-video-preview": -1,
+    },
   },
 }
 

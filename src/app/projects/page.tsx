@@ -1,6 +1,7 @@
 import type { Metadata } from "next"
 import Link from "next/link"
 import { projects } from "@/lib/projects"
+import { alternatesFor } from "@/lib/seo"
 
 export const metadata: Metadata = {
   title: "Projects",
@@ -12,6 +13,7 @@ export const metadata: Metadata = {
       "Side projects and things I self-host — a macOS menu bar tool, a Spotify web app, a home server, and this site.",
     url: "/projects",
   },
+  alternates: alternatesFor("/projects"),
 }
 
 export default function ProjectsPage() {

@@ -1,9 +1,56 @@
+import type { Metadata } from "next"
 import Image from "next/image"
 import Link from "next/link"
+import JsonLd from "@/components/JsonLd"
 import { getAllPosts } from "@/lib/blog"
 import { projects } from "@/lib/projects"
-import { site } from "@/lib/site"
+import { site, socials } from "@/lib/site"
 import { formatDate } from "@/lib/format"
+import { absolute, alternatesFor } from "@/lib/seo"
+
+export const metadata: Metadata = {
+  alternates: alternatesFor("/"),
+}
+
+/**
+ * Person + WebSite schema, declared only on the home page.
+ *
+ * `sameAs` is what lets Google tie the site to the GitHub and LinkedIn
+ * profiles as one entity, so it is built from the same `socials` list the
+ * footer renders — the two can't drift apart.
+ */
+const personSchema = {
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "Person",
+      "@id": absolute("/#person"),
+      name: site.name,
+      url: site.url,
+      jobTitle: site.role,
+      email: `mailto:${site.email}`,
+      image: absolute("/og.png"),
+      address: {
+        "@type": "PostalAddress",
+        addressLocality: "Tenkasi",
+        addressRegion: "Tamil Nadu",
+        addressCountry: "IN",
+      },
+      worksFor: { "@type": "Organization", name: "Zoho Corporation" },
+      sameAs: socials
+        .filter((s) => !s.href.startsWith("mailto:"))
+        .map((s) => s.href),
+    },
+    {
+      "@type": "WebSite",
+      "@id": absolute("/#website"),
+      url: site.url,
+      name: site.domain,
+      inLanguage: "en",
+      publisher: { "@id": absolute("/#person") },
+    },
+  ],
+}
 
 const work = [
   {
@@ -24,6 +71,7 @@ export default function Home() {
 
   return (
     <div className="mx-auto max-w-6xl px-6 md:px-10">
+      <JsonLd data={personSchema} />
       {/* ---------------------------------------------------------------- */}
       {/* Intro                                                            */}
       {/* ---------------------------------------------------------------- */}
