@@ -267,7 +267,7 @@ export default function NadirDemo() {
         <div className="border-b border-border p-5">
           <p className="label text-muted-foreground">Similarity search</p>
           <p className="mt-3 text-sm leading-relaxed text-muted-foreground">
-            Click any square kilometre around Tirunelveli. The ten closest
+            Click any 1.28 km square around Tirunelveli. The ten closest
             matches are ranked here, in your browser — nothing is asked of a
             server.
           </p>

@@ -16,12 +16,14 @@ export default function NavBar() {
 
   return (
     <header className="sticky top-0 z-50 border-b border-border bg-background/85 backdrop-blur-md">
-      <div className="mx-auto flex h-16 max-w-6xl items-center justify-between px-6 md:px-10">
+      <div className="mx-auto flex h-16 max-w-6xl items-center justify-between gap-4 px-6 md:px-10">
         <Link
           href="/"
-          className="group flex items-center gap-3 transition-colors hover:text-muted-foreground"
+          aria-label="Vignesh KS — home"
+          className="group flex shrink-0 items-center gap-3 transition-colors hover:text-muted-foreground"
         >
-          {/* Decorative: the adjacent wordmark already carries the name.
+          {/* Decorative: the link's aria-label carries the name, since the
+              wordmark beside it is hidden below sm.
               .logo-adaptive lifts the navy for the dark background. */}
           <Image
             src="/ksv.png"
@@ -31,15 +33,15 @@ export default function NavBar() {
             priority
             className="h-6 w-auto logo-adaptive"
           />
-          <span className="text-base font-bold uppercase tracking-tight">
+          <span className="hidden whitespace-nowrap text-base font-bold uppercase tracking-tight sm:inline">
             Vignesh KS
           </span>
         </Link>
 
-        <div className="flex items-center gap-6 md:gap-8">
+        <div className="flex shrink-0 items-center gap-6 md:gap-8">
           {/* Short enough to always show — no mobile menu needed, and no
               hidden-nav dead end on small screens. */}
-          <nav className="flex items-center gap-6 md:gap-8">
+          <nav className="flex shrink-0 items-center gap-6 md:gap-8">
             {navItems.map(({ href, label }) => {
               const active = pathname === href || pathname.startsWith(`${href}/`)
               return (

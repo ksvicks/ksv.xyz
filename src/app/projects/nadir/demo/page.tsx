@@ -7,7 +7,7 @@ import { absolute, alternatesFor } from "@/lib/seo"
 import { site } from "@/lib/site"
 
 const SUMMARY =
-  "A proof of concept. Pick a square kilometre of Tirunelveli district and " +
+  "A proof of concept. Pick a 1.28 km square of Tirunelveli district and " +
   "see the ten that look most like it. 1050 Sentinel-2 squares, compared in " +
   "the browser."
 

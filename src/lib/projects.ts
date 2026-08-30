@@ -40,7 +40,7 @@ export const projects: Project[] = [
     slug: "nadir",
     name: "Nadir",
     summary:
-      "A first go at similarity search over satellite imagery — click a square kilometre of Tirunelveli district and see the ten that look most like it.",
+      "A first go at similarity search over satellite imagery — click a 1.28 km square of Tirunelveli district and see the ten that look most like it.",
     detail:
       "A learning project, and a proof of concept rather than a finished tool. Sentinel-2 imagery of Tirunelveli district is cut into 1050 squares of 1.28 km, and each square is turned into a list of 1024 numbers by Clay v1.5, an open earth observation model. Comparing those lists is what ranks one square against all the others. There is an early experiment with a second date, comparing how a place changed instead of how it looks, and it does seem to help, but I have not tested it carefully enough to claim anything. The aim so far was to get the whole path working end to end and see it on a map. Proper evaluation, the serving side and the harder geospatial questions are what I want to take up next.",
     stack: ["Python", "PyTorch", "Clay v1.5", "FastAPI", "numpy", "PostGIS", "pgvector", "Leaflet"],
