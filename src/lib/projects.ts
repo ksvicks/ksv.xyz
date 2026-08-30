@@ -6,6 +6,9 @@ export interface ProjectLink {
 export interface Project {
   /** Two-digit index used as the Swiss grid marker. */
   index: string
+  /** URL segment for the detail page. Written out rather than derived from
+      `name`, which contains dots and mixed case. */
+  slug: string
   name: string
   /** One line — what it is, not why it's impressive. */
   summary: string
@@ -23,11 +26,31 @@ export interface Project {
   links?: ProjectLink[]
   /** Slug of a related blog post, if one exists. */
   post?: string
+  /**
+   * Site-relative path to a live, in-page demo. Separate from `links` because
+   * those open in a new tab with an external-link marker, and this one is a
+   * route on this site — it deserves an internal link and its own emphasis.
+   */
+  demo?: string
 }
 
 export const projects: Project[] = [
   {
     index: "01",
+    slug: "nadir",
+    name: "Nadir",
+    summary:
+      "A first go at similarity search over satellite imagery — click a square kilometre of Tirunelveli district and see the ten that look most like it.",
+    detail:
+      "A learning project, and a proof of concept rather than a finished tool. Sentinel-2 imagery of Tirunelveli district is cut into 1050 squares of 1.28 km, and each square is turned into a list of 1024 numbers by Clay v1.5, an open earth observation model. Comparing those lists is what ranks one square against all the others. There is an early experiment with a second date, comparing how a place changed instead of how it looks, and it does seem to help, but I have not tested it carefully enough to claim anything. The aim so far was to get the whole path working end to end and see it on a map. Proper evaluation, the serving side and the harder geospatial questions are what I want to take up next.",
+    stack: ["Python", "PyTorch", "Clay v1.5", "FastAPI", "numpy", "PostGIS", "pgvector", "Leaflet"],
+    status: "In progress",
+    year: "2026",
+    demo: "/projects/nadir/demo",
+  },
+  {
+    index: "02",
+    slug: "claude-notify",
     name: "claude-notify",
     summary:
       "A macOS menu bar indicator showing which Claude Code session is waiting on you.",
@@ -40,7 +63,8 @@ export const projects: Project[] = [
     post: "claude-notify",
   },
   {
-    index: "02",
+    index: "03",
+    slug: "auravibe",
     name: "Auravibe",
     summary: "A Spotify-connected web app pairing a Spring backend with a React frontend.",
     detail:
@@ -51,7 +75,8 @@ export const projects: Project[] = [
     post: "AuravibeMilestone",
   },
   {
-    index: "03",
+    index: "04",
+    slug: "home-server",
     name: "Home server",
     summary:
       "A second-hand HP thin client running Ubuntu, used for self-hosting and for learning the ops side properly.",
@@ -63,7 +88,8 @@ export const projects: Project[] = [
     post: "home-server-journey-part1",
   },
   {
-    index: "04",
+    index: "05",
+    slug: "ksv-xyz",
     name: "ksv.xyz",
     summary: "This site — a Next.js app with a file-based Markdown blog.",
     detail:
@@ -74,17 +100,24 @@ export const projects: Project[] = [
     links: [{ label: "Source", href: "https://github.com/ksvicks/ksv.xyz" }],
   },
   {
-    index: "05",
+    index: "06",
+    slug: "raspberry-pi-control-panel",
     name: "Raspberry Pi control panel",
     summary: "A small monitoring and control UI for a Pi, built with Java and React.",
     stack: ["Java", "React"],
     status: "Shelved",
   },
   {
-    index: "06",
+    index: "07",
+    slug: "lyrics-song-finder",
     name: "Lyrics-based song finder",
     summary: "Finds a song from a half-remembered fragment of its lyrics.",
     stack: ["Java"],
     status: "Shelved",
   },
 ]
+
+/** Detail-page lookup. Returns undefined for an unknown slug so callers 404. */
+export function getProjectBySlug(slug: string): Project | undefined {
+  return projects.find((project) => project.slug === slug)
+}

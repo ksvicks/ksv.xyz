@@ -1,5 +1,6 @@
 import type { MetadataRoute } from "next"
-import { getAllPosts } from "@/lib/blog"
+import { getAllPosts, getAllTags, getPostsByTag } from "@/lib/blog"
+import { projects } from "@/lib/projects"
 import { absolute } from "@/lib/seo"
 import { site } from "@/lib/site"
 
@@ -47,5 +48,33 @@ export default function sitemap(): MetadataRoute.Sitemap {
       changeFrequency: "yearly" as const,
       priority: 0.8,
     })),
+    ...projects.map((project) => ({
+      url: absolute(`/projects/${project.slug}`),
+      changeFrequency: "monthly" as const,
+      priority: 0.6,
+    })),
+    // A live demo is a destination in its own right, and ranks above the
+    // detail page that describes it.
+    ...projects
+      .filter((project) => project.demo)
+      .map((project) => ({
+        url: absolute(project.demo!),
+        changeFrequency: "monthly" as const,
+        priority: 0.7,
+      })),
+    // A tag page changes only when a post carrying that tag does, so its date
+    // is the newest post in the tag — not the newest post on the site.
+    ...getAllTags().map((tag) => {
+      const tagged = getPostsByTag(tag.slug)?.posts ?? []
+      const latest = tagged[0]
+      return {
+        url: absolute(`/blog/tag/${tag.slug}`),
+        lastModified: latest
+          ? new Date(latest.updated ?? latest.date)
+          : undefined,
+        changeFrequency: "monthly" as const,
+        priority: 0.5,
+      }
+    }),
   ]
 }

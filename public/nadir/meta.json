@@ -1,0 +1,17 @@
+{
+  "model": "Clay v1.5",
+  "dim": 1024,
+  "count": 1050,
+  "bounds": [
+    [
+      8.55,
+      77.4
+    ],
+    [
+      8.9,
+      77.85
+    ]
+  ],
+  "chipMetres": 1280,
+  "quantised": "int16"
+}

@@ -38,7 +38,12 @@ export default function ProjectsPage() {
               <div className="max-w-2xl">
                 <div className="flex flex-wrap items-baseline gap-x-5 gap-y-2">
                   <h2 className="text-2xl font-bold tracking-tight md:text-3xl">
-                    {p.name}
+                    <Link
+                      href={`/projects/${p.slug}`}
+                      className="transition-colors hover:text-muted-foreground"
+                    >
+                      {p.name}
+                    </Link>
                   </h2>
                   <span className="label text-muted-foreground">
                     {p.status}
@@ -48,12 +53,6 @@ export default function ProjectsPage() {
 
                 <p className="mt-4 text-lg leading-relaxed">{p.summary}</p>
 
-                {p.detail && (
-                  <p className="mt-4 leading-relaxed text-muted-foreground">
-                    {p.detail}
-                  </p>
-                )}
-
                 <div className="mt-6 flex flex-wrap gap-x-4 gap-y-2">
                   {p.stack.map((tech) => (
                     <span key={tech} className="label text-muted-foreground">
@@ -62,29 +61,45 @@ export default function ProjectsPage() {
                   ))}
                 </div>
 
-                {(p.links?.length || p.post) && (
-                  <div className="mt-6 flex flex-wrap gap-x-8 gap-y-3">
-                    {p.links?.map(({ label, href }) => (
-                      <a
-                        key={label}
-                        href={href}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        className="label border-b-2 border-border pb-1 transition-colors hover:border-foreground"
-                      >
-                        {label} ↗
-                      </a>
-                    ))}
-                    {p.post && (
-                      <Link
-                        href={`/blog/${p.post}`}
-                        className="label border-b-2 border-border pb-1 transition-colors hover:border-foreground"
-                      >
-                        Write-up
-                      </Link>
-                    )}
-                  </div>
-                )}
+                <div className="mt-6 flex flex-wrap gap-x-8 gap-y-3">
+                  {p.demo && (
+                    <Link
+                      href={p.demo}
+                      className="label border-b-2 border-foreground pb-1 transition-colors hover:text-muted-foreground"
+                    >
+                      Live demo
+                    </Link>
+                  )}
+                  <Link
+                    href={`/projects/${p.slug}`}
+                    className={`label border-b-2 pb-1 transition-colors ${
+                      p.demo
+                        ? "border-border hover:border-foreground"
+                        : "border-foreground hover:text-muted-foreground"
+                    }`}
+                  >
+                    Details
+                  </Link>
+                  {p.links?.map(({ label, href }) => (
+                    <a
+                      key={label}
+                      href={href}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="label border-b-2 border-border pb-1 transition-colors hover:border-foreground"
+                    >
+                      {label} ↗
+                    </a>
+                  ))}
+                  {p.post && (
+                    <Link
+                      href={`/blog/${p.post}`}
+                      className="label border-b-2 border-border pb-1 transition-colors hover:border-foreground"
+                    >
+                      Write-up
+                    </Link>
+                  )}
+                </div>
               </div>
             </article>
           </li>

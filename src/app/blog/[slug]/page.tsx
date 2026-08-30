@@ -4,8 +4,15 @@ import Link from "next/link";
 import { notFound } from "next/navigation";
 import ReactMarkdown from "react-markdown";
 import remarkGfm from "remark-gfm";
+import rehypeSlug from "rehype-slug";
+import rehypeAutolinkHeadings from "rehype-autolink-headings";
 import JsonLd from "@/components/JsonLd";
-import { getPostBySlug, getAllSlugs } from "@/lib/blog";
+import {
+  getPostBySlug,
+  getAllSlugs,
+  getAdjacentPosts,
+  slugifyTag,
+} from "@/lib/blog";
 import { formatDate, readingTime } from "@/lib/format";
 import { absolute, alternatesFor } from "@/lib/seo";
 import { site } from "@/lib/site";
@@ -18,6 +25,22 @@ export function generateStaticParams(): { slug: string }[] {
 }
 
 type Params = { slug: string };
+
+/**
+ * Heading anchors.
+ *
+ * `rehype-slug` gives every heading an id; the autolink plugin wraps the text
+ * in a self-link so the heading is shareable and Google can offer a jump link
+ * straight into a section. `behavior: "wrap"` keeps the markup clean — no
+ * stray "#" character in the reading flow or in the RSS summary.
+ */
+const rehypePlugins = [
+  rehypeSlug,
+  [
+    rehypeAutolinkHeadings,
+    { behavior: "wrap", properties: { className: "heading-anchor" } },
+  ],
+] as const;
 
 /* -------------------------------------------------------------------------- */
 /* Per-post metadata — this is what makes a shared link render a real card.   */
@@ -74,6 +97,7 @@ export default async function BlogDetail({
   if (!post) notFound();
 
   const { title, date, updated, content, tags } = post;
+  const { prev, next } = getAdjacentPosts(slug);
   const url = absolute(`/blog/${slug}`);
 
   /* BlogPosting is what earns the article treatment in search results;
@@ -135,9 +159,13 @@ export default async function BlogDetail({
           {tags.length > 0 && (
             <div className="mt-8 flex flex-wrap gap-x-4 gap-y-2">
               {tags.map((tag) => (
-                <span key={tag} className="label text-muted-foreground">
+                <Link
+                  key={tag}
+                  href={`/blog/tag/${slugifyTag(tag)}`}
+                  className="label text-muted-foreground transition-colors hover:text-foreground"
+                >
                   {tag}
-                </span>
+                </Link>
               ))}
             </div>
           )}
@@ -146,11 +174,47 @@ export default async function BlogDetail({
         <hr className="my-12 border-border" />
 
         <div className="article">
-          <ReactMarkdown remarkPlugins={[remarkGfm]}>{content}</ReactMarkdown>
+          <ReactMarkdown
+            remarkPlugins={[remarkGfm]}
+            rehypePlugins={rehypePlugins as never}
+          >
+            {content}
+          </ReactMarkdown>
         </div>
       </article>
 
-      <nav className="mt-20 border-t border-border pt-8">
+      {(prev || next) && (
+        <nav
+          aria-label="More posts"
+          className="mt-20 grid grid-cols-1 gap-px border-t border-border bg-border sm:grid-cols-2"
+        >
+          {/* Each cell keeps its background so the 1px grid gap reads as a
+              rule between them. An empty cell still holds the column. */}
+          <div className="bg-background">
+            {prev && (
+              <Link href={`/blog/${prev.slug}`} className="group block py-8 pr-6">
+                <span className="label text-muted-foreground">← Older</span>
+                <span className="mt-3 block text-lg font-bold tracking-tight transition-colors group-hover:text-muted-foreground">
+                  {prev.title}
+                </span>
+              </Link>
+            )}
+          </div>
+
+          <div className="bg-background sm:text-right">
+            {next && (
+              <Link href={`/blog/${next.slug}`} className="group block py-8 sm:pl-6">
+                <span className="label text-muted-foreground">Newer →</span>
+                <span className="mt-3 block text-lg font-bold tracking-tight transition-colors group-hover:text-muted-foreground">
+                  {next.title}
+                </span>
+              </Link>
+            )}
+          </div>
+        </nav>
+      )}
+
+      <nav className="mt-8 border-t border-border pt-8">
         <Link
           href="/blog"
           className="label text-muted-foreground transition-colors hover:text-foreground"

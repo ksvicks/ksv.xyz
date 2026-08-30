@@ -285,6 +285,33 @@
     white-space: pre;
   }
 
+  /* Heading anchors, added by rehype-autolink-headings with behavior "wrap".
+     The link inherits the heading's look until hover, so the article reads
+     unchanged; the "#" is a pseudo-element, keeping it out of the text the
+     browser copies and out of any text extracted for search snippets. */
+  .article :is(h2, h3, h4) .heading-anchor {
+    color: inherit;
+    text-decoration: none;
+  }
+
+  .article :is(h2, h3, h4) .heading-anchor::after {
+    content: "#";
+    margin-left: 0.35em;
+    color: var(--muted-foreground);
+    opacity: 0;
+    transition: opacity 150ms ease;
+  }
+
+  .article :is(h2, h3, h4) .heading-anchor:hover::after,
+  .article :is(h2, h3, h4) .heading-anchor:focus-visible::after {
+    opacity: 1;
+  }
+
+  /* A linked heading must not sit under the sticky navbar when jumped to. */
+  .article :is(h2, h3, h4)[id] {
+    scroll-margin-top: 5.5rem;
+  }
+
   .article hr {
     border: 0;
     border-top: 1px solid var(--border);
@@ -315,5 +342,64 @@
   .article th {
     font-weight: 650;
     background: var(--muted);
+  }
+}
+
+/* -------------------------------------------------------------------------- */
+/* Leaflet, brought into the Swiss grid                                       */
+/* -------------------------------------------------------------------------- */
+/*
+ * Leaflet ships its own light chrome — white controls, rounded corners, a pale
+ * attribution strip — which reads as a third-party widget dropped onto the
+ * page. These rules hand it the site's own tokens instead. Scoped to
+ * .leaflet-container so nothing here can reach the rest of the site.
+ */
+@layer components {
+  .leaflet-container {
+    background: var(--muted);
+    font-family: var(--font-mono), ui-monospace, monospace;
+  }
+
+  .leaflet-container a {
+    color: var(--muted-foreground);
+  }
+
+  .leaflet-control-attribution {
+    background: color-mix(in oklab, var(--background) 88%, transparent);
+    color: var(--muted-foreground);
+    font-size: 10px;
+    padding: 2px 6px;
+  }
+
+  .leaflet-bar,
+  .leaflet-bar a {
+    border-radius: 0;
+    border-color: var(--border);
+    background: var(--background);
+    color: var(--foreground);
+  }
+
+  .leaflet-bar a:hover {
+    background: var(--accent);
+    color: var(--foreground);
+  }
+
+  /*
+   * OpenStreetMap ships one style, and it is a light one. Inverting the tile
+   * pane and rotating the hue back gives a dark map from the same tiles, with
+   * no second tile source to keep in step. Scoped to .leaflet-tile-pane so the
+   * NDVI raster, the chip grid and the result squares — all in other panes —
+   * keep the colours they were drawn with.
+   */
+  .dark .leaflet-tile-pane {
+    filter: invert(1) hue-rotate(180deg) brightness(0.92) contrast(0.9)
+      saturate(0.55);
+  }
+
+  /* The NDVI raster is 1400 px wide over a 50 km region, so a browser zoomed
+     past its native scale smooths 10 m Sentinel pixels into mush. Keep the
+     pixel edges — a hard boundary between field and scrub is the signal. */
+  .nadir-raster {
+    image-rendering: pixelated;
   }
 }

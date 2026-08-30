@@ -23,6 +23,14 @@ export default function Footer() {
           </div>
 
           <nav className="flex flex-wrap gap-6">
+            {/* The <link rel="alternate"> in the layout only helps readers that
+                sniff for it. This is the one a person can actually click. */}
+            <a
+              href="/feed.xml"
+              className="label text-muted-foreground transition-colors hover:text-foreground"
+            >
+              RSS
+            </a>
             {socials.map(({ label, href }) => (
               <a
                 key={label}

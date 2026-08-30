@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import JsonLd from "@/components/JsonLd";
-import { getAllPosts } from "@/lib/blog";
+import { getAllPosts, getAllTags } from "@/lib/blog";
 import { formatDate } from "@/lib/format";
 import { absolute, alternatesFor } from "@/lib/seo";
 import { site } from "@/lib/site";
@@ -21,6 +21,7 @@ export const metadata: Metadata = {
 
 export default function BlogPage() {
   const posts = getAllPosts();
+  const tags = getAllTags();
 
   /* Lists every post so a crawler sees the full index from this one page,
      even before it follows the individual links. */
@@ -53,6 +54,23 @@ export default function BlogPage() {
           Debugging, infrastructure, and things I wanted written down before I
           forgot them.
         </p>
+
+        {/* Tags live here rather than on each card below: the whole card is
+            already one link, and an anchor inside an anchor is invalid HTML. */}
+        {tags.length > 0 && (
+          <nav aria-label="Browse by tag" className="mt-10 flex flex-wrap gap-x-4 gap-y-2">
+            {tags.map((tag) => (
+              <Link
+                key={tag.slug}
+                href={`/blog/tag/${tag.slug}`}
+                className="label text-muted-foreground transition-colors hover:text-foreground"
+              >
+                {tag.label}
+                <span className="ml-1.5 opacity-60">{tag.count}</span>
+              </Link>
+            ))}
+          </nav>
+        )}
       </header>
 
       <ul className="pb-12">
