@@ -59,6 +59,7 @@ export const projects: Project[] = [
     stack: ["Java 21", "Spring Boot", "PostgreSQL", "MCP", "React", "Vite", "Tailwind"],
     status: "In progress",
     year: "2026",
+    links: [{ label: "Live", href: "https://health.kaaati.com/" }],
     post: "healthkaaati",
   },
   {

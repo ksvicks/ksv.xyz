@@ -5,7 +5,7 @@ summary: "A food diary where I just tell Claude what I ate and how I feel, and i
 tags: ["HealthKaaati", "MCP", "Claude", "Spring", "React"]
 ---
 
-I wanted a food diary that feels like a chat with a friend. So I built **HealthKaaati**.
+I wanted a food diary that feels like a chat with a friend. So I built **[HealthKaaati](https://health.kaaati.com/)**.
 
 I tell Claude about my day in my own words:
 
@@ -61,5 +61,7 @@ About 70 commits in one month, from an empty folder to a working v1.
 - A photo of the plate, so logging is one tap.
 
 When logging takes one sentence, logging becomes a habit. That is the whole idea.
+
+HealthKaaati is live at [health.kaaati.com](https://health.kaaati.com/), invite-only for now.
 
 — Vicky KS
