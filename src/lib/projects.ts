@@ -50,8 +50,8 @@ export const projects: Project[] = [
   },
   {
     index: "02",
-    slug: "healthkaati",
-    name: "HealthKaati",
+    slug: "healthkaaati",
+    name: "HealthKaaati",
     summary:
       "A food and symptom diary you talk to — tell Claude what you ate and how you feel, and it writes the diary over MCP.",
     detail:
@@ -59,7 +59,7 @@ export const projects: Project[] = [
     stack: ["Java 21", "Spring Boot", "PostgreSQL", "MCP", "React", "Vite", "Tailwind"],
     status: "In progress",
     year: "2026",
-    post: "healthkaati",
+    post: "healthkaaati",
   },
   {
     index: "03",
