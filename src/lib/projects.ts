@@ -50,6 +50,19 @@ export const projects: Project[] = [
   },
   {
     index: "02",
+    slug: "healthkaati",
+    name: "HealthKaati",
+    summary:
+      "A food and symptom diary you talk to — tell Claude what you ate and how you feel, and it writes the diary over MCP.",
+    detail:
+      "One Spring Boot process serves an MCP endpoint for Claude and a REST API for a mobile-first React web app, over the same service layer. There is no food database in v1: the model estimates the calories, and every number on screen is marked as an estimate. The History screen lists the foods eaten before each symptom, beside how often they turn up anyway. It records and never advises, and it does not record medicines. Invite-only for now.",
+    stack: ["Java 21", "Spring Boot", "PostgreSQL", "MCP", "React", "Vite", "Tailwind"],
+    status: "In progress",
+    year: "2026",
+    post: "healthkaati",
+  },
+  {
+    index: "03",
     slug: "claude-notify",
     name: "claude-notify",
     summary:
@@ -63,7 +76,7 @@ export const projects: Project[] = [
     post: "claude-notify",
   },
   {
-    index: "03",
+    index: "04",
     slug: "auravibe",
     name: "Auravibe",
     summary: "A Spotify-connected web app pairing a Spring backend with a React frontend.",
@@ -75,7 +88,7 @@ export const projects: Project[] = [
     post: "AuravibeMilestone",
   },
   {
-    index: "04",
+    index: "05",
     slug: "home-server",
     name: "Home server",
     summary:
@@ -88,7 +101,7 @@ export const projects: Project[] = [
     post: "home-server-journey-part1",
   },
   {
-    index: "05",
+    index: "06",
     slug: "ksv-xyz",
     name: "ksv.xyz",
     summary: "This site — a Next.js app with a file-based Markdown blog.",
@@ -100,7 +113,7 @@ export const projects: Project[] = [
     links: [{ label: "Source", href: "https://github.com/ksvicks/ksv.xyz" }],
   },
   {
-    index: "06",
+    index: "07",
     slug: "raspberry-pi-control-panel",
     name: "Raspberry Pi control panel",
     summary: "A small monitoring and control UI for a Pi, built with Java and React.",
@@ -108,7 +121,7 @@ export const projects: Project[] = [
     status: "Shelved",
   },
   {
-    index: "07",
+    index: "08",
     slug: "lyrics-song-finder",
     name: "Lyrics-based song finder",
     summary: "Finds a song from a half-remembered fragment of its lyrics.",
