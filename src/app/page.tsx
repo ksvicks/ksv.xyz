@@ -97,7 +97,7 @@ export default function Home() {
           <div className="mt-10 flex flex-wrap items-center gap-x-8 gap-y-4">
             <Link
               href="/projects"
-              className="label border-b-2 border-foreground pb-1"
+              className="label border-b-2 border-transparent pb-1 text-muted-foreground transition-colors hover:border-border hover:text-foreground"
             >
               Projects
             </Link>
